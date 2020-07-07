@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ApiDemoApp.Models;
 using DataLibrary.Data;
 using DataLibrary.Models;
 using Microsoft.AspNetCore.Http;
@@ -69,6 +70,26 @@ namespace ApiDemoApp.Controllers
             {
                 return NotFound();
             }
+        }
+
+        [HttpPut] // Put is for updating
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Put([FromBody]OrderUpdateModel data)
+        {
+            await _orderData.UpdateOrderName(data.Id, data.OrderName);
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _orderData.DeleteOrder(id);
+
+            return Ok();
         }
     }
 }
